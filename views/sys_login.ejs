@@ -1,0 +1,63 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <link rel="stylesheet" type="text/css" href="/stylesheets/login.css"/>
+    <link rel="shortcut icon" href="/favicon.ico"/>
+    <link rel="bookmark" href="/favicon.ico"/>
+    <title>Log in to My ABC</title>
+</head>
+<body>
+<div id="all">
+    <div class="login_top">
+        <div class="login_return">
+            <ul>
+                <li><a href="#">Back to homepage</a><a href="#"><img src="/images/return.png"/></a></li>
+            </ul>
+        </div>
+    </div>
+    <div class="login_main">
+        <div class="login_main_top">
+            <img src="/images/newlogo.png" style="margin-top:50px;"/>
+        </div>
+        <div class="login_main_center">
+            <div class="form_login">
+                <form action="/login" id="loginform" method="post">
+                    <table class="table_login">
+                        <tr>
+                            <td class="login_td_one">Username:</td>
+                            <td class="login_td_two" colspan="2"><input name="username" type="text" id="username"/></td>
+                            <td class="login_td_three" width="130px" rowspan="3"><input type="submit" class="btn_login" value=""/></td>
+                        </tr>
+                        <tr>
+                            <td class="login_td_one">Password: </td>
+                            <td class="login_td_two" colspan="2"><input name="password" type="password" id="password"/>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td class="login_td_one">Verification code:</td>
+                            <td class="login_td_two_last"><input name="captfield" type="text" id="textfield"/></td>
+                            <td class="login_captcha"><a href="#" id="loginbtn"><img src="" id="capt"/></a></td>
+                        </tr>
+                    </table>
+                </form>
+            </div>
+        </div>
+        <div class="login_space">
+        </div>
+    </div>
+</div>
+</body>
+<script type="text/javascript" src="/javascripts/jquery-3.2.0.min.js"></script>
+<script>
+    // generate the verification code
+    document.getElementById("capt").src = "/captchapng";
+    // onclick() to get a new verification code
+    document.getElementById("capt").onclick = function () {
+        var timer = (new Date()).getTime();
+        document.getElementById("capt").src = "/captchapng?timer=" + timer;
+    }
+</script>
+</html>

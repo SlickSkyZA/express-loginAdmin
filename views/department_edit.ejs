@@ -1,0 +1,50 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <link rel="stylesheet" type="text/css" href="/stylesheets/index.css"/>
+    <link rel="stylesheet" type="text/css" href="/stylesheets/user.css"/>
+    <title>Edit Department</title>
+</head>
+<body>
+<div class="sys_contnt">
+    <div class="sys_content_left">
+        <ul>
+            <li><a href="/departlist" id="departmanager" target="_self">Manage Department</a></li>
+            <li class="sys_content_left_l1"><a href="/adddepart" id="useradd">Add Department</a></li>
+        </ul>
+    </div>
+    <div class="sys_content_right">
+        <div class="user_add">
+            <h1>Edit Department</h1>
+            <div class="con">
+                <form action="/updatedepart" method="post">
+                    <table cellpadding="0" border="0" cellspacing="0" class="d">
+                        <tr>
+                            <td width="20%" class="td_1">Department Name:　</td>
+                            <!-- obtain data from server and display data -->
+                            <td width="80%"><input type="text" name="departname" class="text" value="<%= department[0]["departName"] %>"/></td>
+                        </tr>
+                        <tr>
+                            <td width="20%" class="td_1">Department ID:　</td>
+                            <td width="80%"><input type="text" name="departcode" class="text" value="<%= department[0]["departCode"] %>"/></td>
+                        </tr>
+                        <tr class="tr_5">
+                            <td class="td_1"><span class="td_t">Remark:　</span></td>
+                            <td class="texta"><textarea rows="8" cols="34" name="description"><%= department[0]["departTip"] %></textarea></td>
+                        </tr>
+                        <tr>
+                            <!-- obtain departmentId to update data correctly -->
+                            <td><input type="hidden" name="departmentId" value="<%= department[0]["departmentId"] %>"/></td>
+                            <td class="td_btn"><input type="submit" class="btn_sub" value="Submit"/></td>
+                        </tr>
+                    </table>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+</body>
+</html>

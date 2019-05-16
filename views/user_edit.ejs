@@ -1,0 +1,105 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <link rel="stylesheet" type="text/css" href="/stylesheets/index.css"/>
+    <link rel="stylesheet" type="text/css" href="/stylesheets/user.css"/>
+    <title>Edit User</title>
+</head>
+<body>
+<div class="sys_contnt">
+    <div class="sys_content_left">
+        <ul>
+            <li><a href="/userlist" id="usermanager" target="_self">Manage Users</a></li>
+            <li class="sys_content_left_l1"><a href="/adduser" id="useradd">Add Users</a></li>
+        </ul>
+    </div>
+    <div class="sys_content_right">
+        <div class="user_add">
+            <h1>Add Users</h1>
+            <div class="con">
+                <form action="/updateuser" method="post">
+                    <table cellpadding="0" border="0" cellspacing="0" class="d">
+                        <tr>
+                            <td width="20%" class="td_1">Username:　</td>
+                            <td width="80%"><input type="text" name="username" class="text" id="username" value="<%= loginuser[0]["userName"] %>"/></td>
+                        </tr>
+                        <tr>
+                            <td width="20%" class="td_1">User ID:　</td>
+                            <td width="80%"><input type="text" name="usercode" class="text" id="usercode" value="<%= loginuser[0]["userCode"] %>"/></td>
+                        </tr>
+                        <tr>
+                            <td class="td_1">Group:　</td>
+                            <td>
+                                <div id="s1" class="select">
+                                    <span>Select from...</span>
+                                    <ul>
+
+                                    </ul>
+                                    <input type="hidden" name="usergroup" id="usergroup"/>
+                                </div>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td class="td_1">Department:　</td>
+                            <td>
+                                <div id="s2" class="select">
+                                    <span>Select from...</span>
+                                    <ul>
+                                    </ul>
+                                    <input type="hidden" name="userdepart" id="userdepart"/>
+                                </div>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td class="td_1">Password:　</td>
+                            <td><input type="password" name="pwd" class="text" value="<%= loginuser[0]["password"] %>"/>
+                                <input name="button" type="submit" class="passbut" id="button" value="Random password"/>
+                            </td>
+                        </tr>
+                        <tr class="tr_5">
+                            <td class="td_1"><span class="td_t">Remark:　</span></td>
+                            <td class="texta"><textarea rows="8" cols="34" name="description" id="description" value="<%= loginuser[0]["userTip"] %>"></textarea></td>
+                        </tr>
+                        <tr>
+                            <td><input type="hidden" name="userId" value="<%= loginuser[0]["userId"] %>"/></td>
+                            <td class="td_btn"><input type="submit" class="btn_sub" value="Submit"/></td>
+                        </tr>
+                    </table>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+</body>
+<script src="/javascripts/jquery-3.2.0.min.js"></script>
+<script>
+    // get department name which stores in department and display them in ul
+    $(document).ready(function () {
+        $.get("/getdepartlist", function (data, result) {
+            for (var i = 0; i < data.length; i++) {
+                var liNode = $("<li myindex=" + data[i].departmentId + ">" + data[i].departName + "</li>");
+                $("#s2 ul").append(liNode);
+            }
+        })
+    })
+
+    // whichever you select, the browser will display the one you selected, and other options will be hidden.
+    function select(id) {
+        $(id + " span").click(function () {
+            $(id + " ul").show(500);
+            $(id + " ul li").click(function () {
+                $(id + " span").html($(this).html());
+                $(id + " input").val($(this).attr("myindex"));
+                $(id + " ul").hide(500);
+            });
+        });
+    }
+
+    $(document).ready(function () {
+        select("#s2");
+    });
+</script>
+</html>

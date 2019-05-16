@@ -1,0 +1,128 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <link rel="stylesheet" type="text/css" href="/stylesheets/index.css"/>
+    <link rel="stylesheet" type="text/css" href="/stylesheets/user.css"/>
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Department List</title>
+</head>
+<body>
+<div class="sys_contnt">
+    <div class="sys_content_left">
+        <ul>
+            <li class="sys_content_left_l1"><a href="/departlist" id="departmanager">Manage Department</a></li>
+            <li><a id="useradd" href="/adddepart">Add Department</a></li>
+        </ul>
+    </div>
+    <div class="sys_content_right">
+        <div class="sys_user">
+            <h1 class="fleft">Department Management</h1>
+            <form action="" method="">
+                <input type="submit" class="s_sub" value="Search"/>
+                <input type="text" class="search" placeholder="Enter name of department..."/>
+            </form>
+            <table cellpadding="0" border="0" cellspacing="0" class="user clear">
+                <tr class="first">
+                    <td width="5%"></td>
+                    <td width="8%">Department name</td>
+                    <td width="10%">Department ID</td>
+                    <td width="5%">Remark</td>
+                    <td width="10%">Modify data</td>
+                </tr>
+                <!-- a for loop to list all data which stores in department -->
+                <% for(var i = 0; i < departmentList.length; i++){ %>
+                    <!-- to view records more clearly, when the number of record is odd, display with this style -->
+                    <% if(i % 2 == 0){ %>
+                        <tr>
+                            <td><input type="checkbox" class="checkbox" title=""/></td>
+                            <td width="5%"><%= departmentList[i]["departName"] %></td>
+                            <td width="5%"><%= departmentList[i]["departCode"] %></td>
+                            <td width="10%"><%= departmentList[i]["departTip"] %></td>
+                            </td>
+                            <td>
+                                <ul class="user_table_edit w84">
+                                    <!-- attach the current departmentId parameter to edit the data correctly -->
+                                    <li><a href="/editdepart?departmentId=<%= departmentList[i]["departmentId"] %>" class="user_edit"> <input type="button" class="user_edit" onclick=""/></a>
+                                    </li>
+                                    <!-- onclick() to ask a confirmation and then delete one record -->
+                                    <li><input type="button" class="user_del"
+                                               onclick="if(confirm('Are you sure you want to delete this record?')){deleteOneDepart(<%= departmentList[i]["departmentId"] %>)}">
+                                    </li>
+                                </ul>
+                            </td>
+                        </tr>
+                    <% }else{ %>
+                        <!-- to view records more clearly, when the number of record is even, display with 'double' this style -->
+                        <tr class="double">
+                            <td><input type="checkbox" class="checkbox" title=""/></td>
+                            <td width="5%"><%= departmentList[i]["departName"] %></td>
+                            <td width="5%"><%= departmentList[i]["departCode"] %></td>
+                            <td width="10%"><%= departmentList[i]["departTip"] %></td>
+                            <td>
+                                <ul class="user_table_edit w84">
+                                    <li><a href="/editdepart?departmentId=<%= departmentList[i]["departmentId"] %>" class="user_edit"> <input type="button" class="user_edit" onclick=""/></a>
+                                    </li>
+                                    <li><input type="button" class="user_del"
+                                               onclick="if(confirm('Are you sure you want to delete this record?')){deleteOneDepart(<%= departmentList[i]["departmentId"] %>)}">
+                                    </li>
+                                </ul>
+                            </td>
+                        </tr>
+                    <% } %>
+                <% } %>
+            </table>
+            <div class="div_page2">
+                <span class="w5"><input type="checkbox" class="check_all" id="selectall"/></span>
+                <span><a href="#" class="btn_del" id="deptlistDel">Delete</a></span>
+                <ul class="change" id="pagelist">
+                    <!-- the default page is page 1, IF the records are more than 5, then Next can function, ELSE disables its hyperlink.
+                         departmentList[0]["count"] to get the total number of data.
+                         when divided by 5, use Math.ceil() to get the integer -->
+                    <% if(currentPage == Math.ceil((departmentList[0]["count"] / 5))){ %>
+                        <li class="pageChange"><a href="" disabled="true">Next</a></li>
+                    <% }else{ %>
+                        <!-- use parseInt() to display current page correctly-->
+                        <li class="pageChange"><a href="/departlist?page=<%= parseInt(currentPage) + 1 %>">Next</a></li>
+                    <% } %>
+
+                    <!-- Pagination. one page lists 5 data.
+                         departmentList[0]["count"] to get the total number of data.
+                         a for loop to display all page numbers.
+                           if/else to differentiate displaying and highlight the current page number. -->
+                    <% for(var i = Math.ceil((departmentList[0]["count"] / 5)); i >= 1; i--){ %>
+                        <% if(i == currentPage){ %>
+                            <li class="page current"><a href="/departlist?page=<%= i %>"><%= i %></a></li>
+                        <% }else{ %>
+                            <li class="page"><a href="/departlist?page=<%= i %>"><%= i %></a></li>
+                        <% } %>
+                    <% } %>
+
+                    <% if(currentPage == 1){ %>
+                        <li class="pageChange"><a href="" disabled="true">Previous</a></li>
+                    <% }else{ %>
+                        <li class="pageChange"><a href="/departlist?page=<%= parseInt(currentPage) - 1 %>">Previous</a></li>
+                    <% } %>
+                </ul>
+            </div>
+            <div class="clear"></div>
+        </div>
+    </div>
+</div>
+</body>
+<script type="text/javascript" src="/javascripts/jquery-3.2.0.min.js"></script>
+<script>
+    // onclick() delete one record.
+    function deleteOneDepart(departId) {
+        var departmentId = departId;
+        $.post("/deleteOneDepart", {departmentId: departmentId}, function (data, result) {
+            // if deleted successfully, then send an alert and reload the webpage.
+            if (result == "success") {
+                alert("Deleted successfully.");
+                window.history.go(0);
+            }
+        })
+    }
+</script>
+</html>
