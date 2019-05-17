@@ -36,7 +36,7 @@
                     <!-- to view records more clearly, when the number of record is odd, display with this style -->
                     <% if(i % 2 == 0){ %>
                         <tr>
-                            <td><input type="checkbox" class="checkbox" title=""/></td>
+                            <td><input type="checkbox" class="checkbox" title="<%= departmentList[i]["departmentId"] %>"/></td>
                             <td width="5%"><%= departmentList[i]["departName"] %></td>
                             <td width="5%"><%= departmentList[i]["departCode"] %></td>
                             <td width="10%"><%= departmentList[i]["departTip"] %></td>
@@ -56,7 +56,7 @@
                     <% }else{ %>
                         <!-- to view records more clearly, when the number of record is even, display with 'double' this style -->
                         <tr class="double">
-                            <td><input type="checkbox" class="checkbox" title=""/></td>
+                            <td><input type="checkbox" class="checkbox" title="<%= departmentList[i]["departmentId"]%>"/></td>
                             <td width="5%"><%= departmentList[i]["departName"] %></td>
                             <td width="5%"><%= departmentList[i]["departCode"] %></td>
                             <td width="10%"><%= departmentList[i]["departTip"] %></td>
@@ -124,5 +124,19 @@
             }
         })
     }
+
+    // delete multiple department records
+    $("#deptlistDel").click(function () {
+        var deptIdArr = [];
+        $("td .checkbox").each(function () {
+            if ($(this).is(":checked")) {
+                deptIdArr.push($(this).attr("title"));
+            }
+        })
+        $.post("/deletedepts", {deptIdArr: deptIdArr.toString()}, function (data, result) {
+            alert(data);
+            window.history.go(0);
+        })
+    });
 </script>
 </html>

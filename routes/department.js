@@ -63,6 +63,22 @@ router.post("/deleteOneDepart", function (req, res, next) {
     })
 });
 
+// delete multiple department records
+router.post("/deletedepts", function (req, res) {
+    var deptIdArr = req.body.deptIdArr;
+    deptIdArr = deptIdArr.split(",");
+    for (var i = 0; i < deptIdArr.length; i++) {
+        var deptId = deptIdArr[i];
+        var sql = "DELETE from department where departmentId=?";
+        db.query(sql, [deptId], function (err, data) {
+            if (err) {
+                console.log(err);
+            }
+        })
+    }
+    res.send("Departments deleted successfully.");
+});
+
 router.get("/editdepart", function (req, res) {
     // get the departmentID of the selected record,
     // then can display the selected record for user previewing and editing
