@@ -7,9 +7,9 @@ Developed by using javascript, jQuery, Node.js, Express, EJS, AJAX, MySQL, Boots
 
 ### Features
 - GET records.
-- Add records.
+- POST records.
 - Edit records.
-- Delete one user/ delete multiple users.
+- Delete one record/ delete multiple records.
 - Verify user by a random generated code.
 - Pagination.
 - Session.
@@ -60,11 +60,11 @@ express-loginAdmin
 ### To use
 Clone this repository and install it, then run it locally `http://localhost:3000/`
 
-`$ git clone https://github.com/miaoT/express-loginAdmin.git`
+`git clone https://github.com/miaoT/express-loginAdmin.git`
 
-`$ cd express-loginAdmin`
+`cd express-loginAdmin`
 
-`$ npm install`
+`npm install`
 
 
 
@@ -80,6 +80,8 @@ Create a database named **sys_db** and create 3 tables: **department**, **loginu
 
 #### Demo
 > You could log in as <font color="#006584">*John*</font> and its pwd <font color="#006584">*9999*</font> to view it.
+ 
 
+ ![demo express-loginAdmin](./public/images/express-loginAdmin.gif)
 
-
+	
